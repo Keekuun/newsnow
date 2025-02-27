@@ -4,17 +4,30 @@ import viteNitro from "vite-plugin-with-nitro"
 import { RollopGlob } from "./tools/rollup-glob"
 import { projectDir } from "./shared/dir"
 
+console.log("[POSTGRES_URL]", process.env.POSTGRES_URL)
+
 const nitroOption: Parameters<typeof viteNitro>[0] = {
   experimental: {
     database: true,
   },
   rollupConfig: {
     plugins: [RollopGlob()],
+    external: ["pg-native"],
   },
   sourceMap: false,
   database: {
+    // default: {
+    //   connector: "sqlite",
+    // },
     default: {
-      connector: "sqlite",
+      connector: "postgresql",
+      options: {
+        user: process.env.POSTGRES_USER,
+        password: process.env.POSTGRES_PASSWORD,
+        host: process.env.POSTGRES_HOST,
+        port: process.env.POSTGRES_PORT,
+        database: process.env.POSTGRES_DATABASE,
+      },
     },
   },
   imports: {
@@ -28,6 +41,7 @@ const nitroOption: Parameters<typeof viteNitro>[0] = {
 }
 
 if (process.env.VERCEL) {
+  console.log("[user vercel database]")
   nitroOption.preset = "vercel-edge"
   // You can use other online database, do it yourself. For more info: https://db0.unjs.io/connectors
   // https://db0.unjs.io/connectors/postgresql
@@ -42,14 +56,10 @@ if (process.env.VERCEL) {
         host: process.env.POSTGRES_HOST,
         port: process.env.POSTGRES_PORT,
         database: process.env.POSTGRES_DATABASE,
+        bindingName: "NEWSNOW_DB",
       },
     },
   }
-  // nitroOption.vercel = {
-  //   config: {
-  //     cache: []
-  //   },
-  // }
 } else if (process.env.CF_PAGES) {
   nitroOption.preset = "cloudflare-pages"
   nitroOption.database = {
