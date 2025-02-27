@@ -4,8 +4,6 @@ import viteNitro from "vite-plugin-with-nitro"
 import { RollopGlob } from "./tools/rollup-glob"
 import { projectDir } from "./shared/dir"
 
-console.log("[POSTGRES_URL]", process.env.POSTGRES_URL)
-
 const nitroOption: Parameters<typeof viteNitro>[0] = {
   experimental: {
     database: true,
@@ -15,18 +13,12 @@ const nitroOption: Parameters<typeof viteNitro>[0] = {
   },
   sourceMap: false,
   database: {
-    // default: {
-    //   connector: "sqlite",
-    // },
     default: {
-      connector: "postgresql",
-      options: {
-        user: process.env.POSTGRES_USER,
-        password: process.env.POSTGRES_PASSWORD,
-        host: process.env.POSTGRES_HOST,
-        port: process.env.POSTGRES_PORT,
-        database: process.env.POSTGRES_DATABASE,
-      },
+      connector: "sqlite",
+      // connector: "postgresql",
+      // options: {
+      //   url: process.env.POSTGRES_URL,
+      // },
     },
   },
   imports: {
@@ -50,12 +42,11 @@ if (process.env.VERCEL) {
     default: {
       connector: "postgresql",
       options: {
-        user: process.env.POSTGRES_USER,
-        password: process.env.POSTGRES_PASSWORD,
-        host: process.env.POSTGRES_HOST,
-        port: process.env.POSTGRES_PORT,
-        database: process.env.POSTGRES_DATABASE,
-        bindingName: "NEWSNOW_DB",
+        url: process.env.POSTGRES_URL,
+        // password: process.env.POSTGRES_PASSWORD,
+        // host: process.env.POSTGRES_HOST,
+        // port: process.env.POSTGRES_PORT,
+        // database: process.env.POSTGRES_DATABASE,
       },
     },
   }
