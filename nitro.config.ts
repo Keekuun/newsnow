@@ -13,21 +13,8 @@ const nitroOption: Parameters<typeof viteNitro>[0] = {
   },
   sourceMap: false,
   database: {
-    // default: {
-    //   connector: "sqlite",
-    // },
-    // https://db0.unjs.io/connectors/postgresql
-    // https://nitro.build/guide/database
-    // https://node-postgres.com/apis/client
     default: {
-      connector: "postgresql",
-      options: {
-        user: process.env.POSTGRES_USER,
-        password: process.env.POSTGRES_PASSWORD,
-        host: process.env.POSTGRES_HOST,
-        port: process.env.POSTGRES_PORT,
-        database: process.env.POSTGRES_DATABASE,
-      },
+      connector: "sqlite",
     },
   },
   imports: {
@@ -43,7 +30,21 @@ const nitroOption: Parameters<typeof viteNitro>[0] = {
 if (process.env.VERCEL) {
   nitroOption.preset = "vercel-edge"
   // You can use other online database, do it yourself. For more info: https://db0.unjs.io/connectors
-  nitroOption.database = undefined
+  // https://db0.unjs.io/connectors/postgresql
+  // https://nitro.build/guide/database
+  // https://node-postgres.com/apis/client
+  nitroOption.database = {
+    default: {
+      connector: "postgresql",
+      options: {
+        user: process.env.POSTGRES_USER,
+        password: process.env.POSTGRES_PASSWORD,
+        host: process.env.POSTGRES_HOST,
+        port: process.env.POSTGRES_PORT,
+        database: process.env.POSTGRES_DATABASE,
+      },
+    },
+  }
   // nitroOption.vercel = {
   //   config: {
   //     cache: []
