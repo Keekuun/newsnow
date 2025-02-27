@@ -13,8 +13,21 @@ const nitroOption: Parameters<typeof viteNitro>[0] = {
   },
   sourceMap: false,
   database: {
+    // default: {
+    //   connector: "sqlite",
+    // },
+    // https://db0.unjs.io/connectors/postgresql
+    // https://nitro.build/guide/database
+    // https://node-postgres.com/apis/client
     default: {
-      connector: "sqlite",
+      connector: "postgresql",
+      options: {
+        user: process.env.POSTGRES_USER,
+        password: process.env.POSTGRES_PASSWORD,
+        host: process.env.POSTGRES_HOST,
+        port: process.env.POSTGRES_PORT,
+        database: process.env.POSTGRES_DATABASE,
+      },
     },
   },
   imports: {

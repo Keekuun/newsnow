@@ -5,6 +5,7 @@ import { currentColumnIDAtom } from "~/atoms"
 export function NavBar() {
   const currentId = useAtomValue(currentColumnIDAtom)
   const { toggle } = useSearchBar()
+
   return (
     <span className={$([
       "flex p-3 rounded-2xl bg-primary/1 text-sm",
