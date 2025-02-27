@@ -12,7 +12,6 @@ const nitroOption: Parameters<typeof viteNitro>[0] = {
   },
   rollupConfig: {
     plugins: [RollopGlob()],
-    external: ["pg-native", "pg-cloudflare"],
   },
   sourceMap: false,
   database: {
